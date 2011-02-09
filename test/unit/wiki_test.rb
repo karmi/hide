@@ -14,6 +14,7 @@ module Deagol
       should "have pages" do
         assert_not_nil @wiki.pages
         assert_equal 10, @wiki.pages.size
+        assert_instance_of Deagol::Page, @wiki.pages.first
       end
     end
 

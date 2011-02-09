@@ -6,7 +6,7 @@ module Deagol
     end
 
     def pages(treeish = nil)
-      @wiki.pages(treeish)
+      @wiki.pages(treeish).map { |p| Deagol::Page.new(p.title, p.path, p.raw_data) }
     end
 
   end
