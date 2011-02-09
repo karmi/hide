@@ -1,3 +1,6 @@
+require 'gollum'
+
+require 'deagol/wiki'
+
 module Deagol
-  # Your code goes here...
 end

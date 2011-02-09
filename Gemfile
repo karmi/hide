@@ -1,4 +1,4 @@
 source "http://rubygems.org"
 
-# Specify your gem's dependencies in deagol.gemspec
-gemspec
+gem "gollum"
+gem "slingshot-rb", :git => 'git://github.com/karmi/slingshot.git'
