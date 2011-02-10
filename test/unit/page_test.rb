@@ -1,12 +1,12 @@
 require 'test_helper'
 
-module Deagol
+module Hide
 
   class PageTest < Test::Unit::TestCase
 
     context "Page" do
       setup do
-        @wiki = Deagol::Wiki.new(wiki_path)
+        @wiki = Hide::Wiki.new(wiki_path)
         @page = @wiki.pages.first
       end
 

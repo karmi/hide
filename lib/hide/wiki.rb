@@ -1,4 +1,4 @@
-module Deagol
+module Hide
   class Wiki
 
     def initialize(path, options = {})
@@ -6,7 +6,7 @@ module Deagol
     end
 
     def pages(treeish = nil)
-      @wiki.pages(treeish).map { |p| Deagol::Page.new(p.title, p.path, p.raw_data) }
+      @wiki.pages(treeish).map { |p| Hide::Page.new(p.title, p.path, p.raw_data) }
     end
 
   end

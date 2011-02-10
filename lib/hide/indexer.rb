@@ -1,4 +1,4 @@
-module Deagol
+module Hide
   class Indexer
 
     def initialize(wiki, index_name)
@@ -13,7 +13,7 @@ module Deagol
 
       @wiki.pages.each do |page|
         p [page.category, page.id]
-        p index.store( page.category, page)
+        p index.store( page.category.to_s, page)
       end
 
       index.refresh

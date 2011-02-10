@@ -5,7 +5,7 @@ require 'mocha'
 require 'turn' unless ENV["TM_FILEPATH"]
 require 'pathname'
 
-require 'deagol'
+require 'hide'
 
 class Test::Unit::TestCase
 

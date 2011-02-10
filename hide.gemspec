@@ -1,10 +1,10 @@
 # -*- encoding: utf-8 -*-
 $:.push File.expand_path("../lib", __FILE__)
-require "deagol/version"
+require "hide/version"
 
 Gem::Specification.new do |s|
-  s.name        = "deagol"
-  s.version     = Deagol::VERSION
+  s.name        = "hide"
+  s.version     = Hide::VERSION
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Karel Minarik"]
   s.email       = ["karmi@karmi.cz"]

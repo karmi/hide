@@ -1,4 +1,4 @@
-module Deagol
+module Hide
   class Page
 
     attr_reader :path, :content, :meta
