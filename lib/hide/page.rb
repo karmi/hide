@@ -1,27 +1,30 @@
 module Hide
   class Page
 
-    attr_reader :path, :content, :meta
+    attr_reader :meta
 
-    def initialize(title, path, content)
-      @title, @path, @content = title, path, content
-      parse_metadata
+    def initialize(page)
+      @page = page
     end
 
     def title
-      meta['title'] || @title
     end
 
     def category
-      meta['cat'] || 'page'
+    end
+
+    def content
+    end
+
+    def url
     end
 
     def id
-      path.tr('/', '__').gsub(/\..+$/, '')
+      # path.tr('/', '__').gsub(/\..+$/, '')
     end
 
     def to_hash
-      { :id => id, :title => title, :category => category, :content => content, :path => path  }
+      { :id => id, :title => title, :category => category, :content => content, :url => url  }
     end
 
     def to_indexed_json
@@ -29,11 +32,6 @@ module Hide
     end
 
     private
-
-    def parse_metadata
-      meta  = @content.split("\n---\n").first.to_s
-      @meta = YAML.load(meta)
-    end
 
   end
 end

@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.authors     = ["Karel Minarik"]
   s.email       = ["karmi@karmi.cz"]
   s.homepage    = ""
-  s.summary     = %q{Parse/index Gollum pages into ElasticSearch}
+  s.summary     = %q{Parse and index Jekyll pages into ElasticSearch}
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
@@ -17,7 +17,7 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
 
 
-  s.add_dependency "gollum", "> 1.1.0"
+  s.add_dependency "jekyll", "> 0.10.0"
   s.add_dependency "slingshot-rb"
 
   s.add_development_dependency "turn"

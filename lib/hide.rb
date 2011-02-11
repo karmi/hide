@@ -1,8 +1,7 @@
-require 'gollum'
+require 'jekyll'
 require 'slingshot'
-require 'yaml'
 
-require 'hide/wiki'
+require 'hide/site'
 require 'hide/page'
 require 'hide/indexer'
 

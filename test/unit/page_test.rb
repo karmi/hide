@@ -6,13 +6,13 @@ module Hide
 
     context "Page" do
       setup do
-        @wiki = Hide::Wiki.new(wiki_path)
-        @page = @wiki.pages.first
+        @site = Hide::Site.new(test_site_path)
+        @page = @site.pages.first
       end
 
       should "should save title, path and content" do
         assert_equal 'You Know, for Search', @page.title
-        assert_equal 'blog/_posts/2010-02-08-youknowforsearch.textile', @page.path
+        assert_equal 'blog/_posts/2010-02-08-youknowforsearch.textile', @page.url
         assert_match Regexp.new(Regexp.escape("You Know, for Search")), @page.content
       end
 

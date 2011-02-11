@@ -9,7 +9,7 @@ require 'hide'
 
 class Test::Unit::TestCase
 
-  def wiki_path
+  def test_site_path
     File.expand_path( 'wiki', File.dirname(__FILE__) )
   end
 
