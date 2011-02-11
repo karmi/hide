@@ -8,19 +8,23 @@ module Hide
     end
 
     def title
+      @page.data['title']
     end
 
     def category
+      @page.data['cat']
     end
 
     def content
+      @page.content
     end
 
     def url
+      @page.destination '/'
     end
 
     def id
-      # path.tr('/', '__').gsub(/\..+$/, '')
+      url.gsub(/^\//, '').gsub(/\//, '___').gsub(/\..+$/, '')
     end
 
     def to_hash

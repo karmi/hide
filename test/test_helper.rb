@@ -9,8 +9,8 @@ require 'hide'
 
 class Test::Unit::TestCase
 
-  def test_site_path
-    File.expand_path( 'wiki', File.dirname(__FILE__) )
+  def path_to_test_site
+    File.expand_path( 'site', File.dirname(__FILE__) )
   end
 
 end
