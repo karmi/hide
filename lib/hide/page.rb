@@ -12,7 +12,7 @@ module Hide
     end
 
     def category
-      @page.data['cat']
+      @page.data['cat'] || 'document'
     end
 
     def content

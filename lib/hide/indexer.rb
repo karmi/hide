@@ -1,8 +1,8 @@
 module Hide
   class Indexer
 
-    def initialize(wiki, index_name)
-      @wiki       = wiki
+    def initialize(site, index_name)
+      @site       = site
       @index_name = index_name
     end
 
@@ -11,7 +11,8 @@ module Hide
       index.delete
       index.create
 
-      @wiki.pages.each do |page|
+      (@site.pages + @site.posts).each do |page|
+        next unless page.title
         p [page.category, page.id]
         p index.store( page.category.to_s, page)
       end
