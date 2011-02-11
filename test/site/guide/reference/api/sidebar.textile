@@ -1,0 +1,40 @@
+---
+layout: clean
+---
+
+h3. "Guide":/guide
+
+h3. Core
+
+* "Index":index_.html
+* "Delete":delete.html
+* "Get":get.html
+* "Search":search/index.html
+* "Bulk":bulk.html
+* "Count":count.html
+* "Delete By Query":delete-by-query.html
+* "More Like This":more-like-this.html
+
+h3. Indices
+
+* "Aliases":admin-indices-aliases.html
+* "Analyze":admin-indices-analyze.html
+* "Create Index":admin-indices-create-index.html
+* "Delete Index":admin-indices-delete-index.html
+* "Open/Close":admin-indices-open-close.html
+* "Get Mapping":admin-indices-get-mapping.html
+* "Put Mapping":admin-indices-put-mapping.html
+* "Delete Mapping":admin-indices-delete-mapping.html
+* "Refresh":admin-indices-refresh.html
+* "Optimize":admin-indices-optimize.html
+* "Flush":admin-indices-flush.html
+* "Snapshot":admin-indices-gateway-snapshot.html
+* "Update Settings":admin-indices-update-settings.html
+
+h3. Cluster
+
+* "Health":admin-cluster-health.html
+* "State":admin-cluster-state.html
+* "Nodes Info":admin-cluster-nodes-info.html
+* "Nodes Stats":admin-cluster-nodes-stats.html
+* "Nodes Shutdown":admin-cluster-nodes-shutdown.html

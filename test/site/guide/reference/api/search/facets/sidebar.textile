@@ -1,0 +1,19 @@
+---
+layout: clean
+---
+
+h3. "Guide":/guide
+
+h3. "API":/guide/reference/api
+
+h3. "Search":/guide/reference/api/search
+
+h3. Facets
+
+* "Terms":terms-facet.html
+* "Range":range-facet.html
+* "Histogram":histogram-facet.html
+* "Filter":filter-facet.html
+* "Query":query-facet.html
+* "Statistical":statistical-facet.html
+* "Geo Distance":geo-distance-facet.html

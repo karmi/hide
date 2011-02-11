@@ -1,0 +1,21 @@
+---
+layout: guide
+title: Search API - Filter Facets
+cat: guide
+---
+
+p. A facet filter allows to return a count of the hits matching the facet filter. The filter itself can be expressed using the Query DSL. For example:
+
+<pre class="prettyprint lang-js">
+{
+    "facets" : {
+        "wow_facet" : {
+            "filter" : {
+                "term" : { "tag" : "wow" }
+            }
+        }
+    }
+}    
+</pre>
+
+p. Note, facet filters are faster than query facet when using native filters (non query wrapper ones).

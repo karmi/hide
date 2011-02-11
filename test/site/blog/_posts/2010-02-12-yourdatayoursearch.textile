@@ -1,0 +1,59 @@
+---
+layout: blogpost
+title: Your Data, Your Search
+cat: blog
+author: Shay Banon
+nick: kimchy
+---
+
+notextile. <img src="/blog/images/magnifying-glass-from-top-secret.gif" height="100px" class="left-img"></img>
+
+p. One of the main aspects when working with business data is to try and have all different components in an ever evolving system to understand the same data structure/format (or as close as possible). This was the main drive for me when developing the data model ElasticSearch supports and the different search and interaction with the data model once indexed.
+
+p. For example, lets assume we want build our own Amazon store, and want to provide search for it. The first thing we have are of course books:
+
+<pre class="prettyprint lang-js">
+{
+    "book" : {
+        "isbn" : "0812504321"
+        "name" : "Call of the Wild",
+        "author" : {
+            "first_name" : "Jack",
+            "last_name" : "London"
+        },
+        "pages" : 128,
+        "tag" : ["fiction", "children"]
+    }
+}
+</pre>
+
+p. The above is a very simple representation of a book in JSON, but already you can see that the book itself has an @author@, which is a complex object that has fields, and @tag@, which is an array of tag names. What you hope is that each component in your Amazon system would be able to interact with the same representation of a book, and ElasticSearch was built just for that. It slurps up any valid JSON, and more over, it *understand* the elements within the JSON.
+
+p. In our case, we can first throw this book into ElasticSearch to index it by simple HTTP PUT it into @localhost:9200/amazon/book/0812504321@. We index it into an index called @amazon@, and a type called @book@. Once we did that, we can simple search for it, for example using GET on @localhost:9200/amazon/book/_search?q=tag:fiction@.
+
+p. But, as mentioned before, ElasticSearch *understands* the structure of the JSON book, which means we can execute the following search to find all the books that were authored by someone with first name of Jack: @localhost:9200/amazon/book/_search?q=author.first_name:Jack@.
+
+p. Now, after our Amazon store has great search support for books and we are successful, we decide to start selling music as well. For example:
+
+<pre class="prettyprint lang-js">
+{
+    "cd" : {
+        "asin" : "B00192IV0O"
+        "name" : "THE E.N.D. (Energy Never Dies)",
+        "artist" : "Black Eyed Peas",
+        "label" : "Interscope",
+        "release_date": "2009-06-09",
+        "tag" : ["hip-hop", "pop-rap"]
+    }
+}
+</pre>
+
+p. And, we want to index it as well. Here, comes @types@ in ElasticSearch into play. We can simply index the mentioned JSON into another type (we already have @book@) called @cd@, and PUT this JSON into @localhost:9200/amazon/cd/B00192IV0O@. Now, we can easily search for all the cds by the @Interscope@ label: @localhost:9200/amazon/cd/_search?q=label:Interscope@.
+
+p. The search capabilities do not end there though, lets say we want to find *everything within the Amazon index* that has @energy@ in its name. Thats a simple search request that is not restricted to the type: @localhost:9200/amazon/_search?q=name:energy@. Now we are starting to get into really nice search capabilities, both the ability to control types within an index, and be able to *search across them*. Of course, if we want to search just across the @cd@ and @book@ types (assuming we have more types later one), we can simple execute: @localhost:9200/amazon/book,cd/_search?q=name:energy@.
+
+p. Sometimes though, we want to narrow down a certain field in the search query to be executed against a specific type. The query itself it executed against the whole index, while just an element in it (for example, in a boolean query) is executed within the specified type. This can certainly be done, and here is an example: @localhost:9200/amazon/_search?cd.name:energy@. In this case we still execute the search against the @amazon@ index, but our field is @cd.name@, which ElasticSearch automatically identifies as a typed field, and execute the part of the query that relates to the typed field just "within" the @cd@ type.
+
+p. This has been a very short example of ElasticSearch support for any JSON structure, with different JSON types supported through multi-types in an index. A final word, and when things gets really interesting (and really scalable), is the fact that ElasticSearch support multi indices as well. In our example, the @book@ and @cd@ can be two completely different indices (with different settings), and ElasticSearch allows to search across them in a similar manner that you search across types.
+
+-shay.banon

@@ -1,0 +1,13 @@
+---
+layout: guide
+title: Delete Index API
+cat: guide
+---
+
+p. The delete index API allows to delete an existing index.
+
+<pre class="prettyprint">
+$ curl -XDELETE 'http://localhost:9200/twitter/'
+</pre>
+
+p. The above example deletes an index called @twitter@.

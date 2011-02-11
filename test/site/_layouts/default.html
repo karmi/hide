@@ -1,0 +1,28 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" dir="ltr"> 
+<head>
+	<title>elasticsearch - {{ page.cat }} - {{ page.title }}</title>
+</head>
+	
+<body>
+    {% include top_left_menu.html %}
+    <div id="wrapper">
+        <div id="all">
+            <div id="search-box"></div>
+            {% include header.html %}
+            <div id="content">
+                <div id="{{ page.cat}}" class="{{ page.width }}">
+                    <div style="height: 80px; font-size: 34px; padding-top: 30px;">
+                        {% if page.title_in_header != false %}
+                        {{ page.title }}
+                        {% endif %}
+                    </div>
+                    <div class="clear"></div>
+                    {{ content }}
+                </div>
+            </div>
+            {% include footer.html %}
+        </div>
+    </div> 
+</body>
+</html>

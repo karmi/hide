@@ -1,0 +1,15 @@
+---
+layout: blogpost
+title: You Know, for Search
+cat: blog
+author: Shay Banon
+nick: kimchy
+---
+
+notextile. <img src="/blog/images/the_hudsucker_proxy.jpeg" height="120px" class="left-img"></img>
+
+p. ElasticSearch is an open source, distributed, RESTful, search engine which is built on top of "Lucene":http://lucene.apache.org internally and enjoys all the features it provides.
+
+p. All the features it has are listed in the "overview page":/products/elasticsearch, so no need to list them here again (with the extra splash, if I might add). ElasticSearch itself was born out of my frustration with the fact that there isn't really a good, open source, solution for distributed search engine out there, which also combines what I expect of search engines after building "Compass":http://www.compass-project.org (and on that, I will blog later...).
+
+p. I have been working on this for the past several months, pouring my search and distributed knowledge into this (and portions of my heart and time ;) ), Enjoy!.

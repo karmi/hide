@@ -1,0 +1,92 @@
+---
+layout: blogpost
+title: Search Engine Time Machine
+cat: blog
+author: Shay Banon
+nick: kimchy
+---
+
+notextile. <img src="/blog/images/time_tunnel.jpg" height="160px" class="left-img"></img>
+
+p. Building a highly available product requires some creative thinking. High availability is measured in two aspects when talking about distributed products. The first is the ability to survive partial cluster failure gracefully (and scale to new nodes when added), and the second is handling complete cluster failure or shutdown (and bringing it back up again).
+
+p. The following covers how a distributed system can handle these two problems, especially in cloud environments, and what ElasticSearch does in such cases.
+
+h2. Partial Cluster Failure
+
+p. Partial cluster failure means that one or more nodes failed within the cluster. Support in a distributed system for partial cluster failure means (surprise surprise) not loosing data when such event happens. It gets even more important when working in the cloud, since the control one has over the servers (for good or bad) is out of our hand. More over, with cloud providers innovating in really cool features like Amazon "spot instances":http://aws.amazon.com/ec2/spot-instances/ (the ability to bid for instances) it means that nodes are out of your control and they basically come and go as they wish.
+
+p. This is a question of state, and where the state is stored. I will cover the case when the state is stored locally to the node, which means that if you loose your node, you loose the data stored with the node. It is important to understand that almost any system will work much faster with local state (local file system, "local" memory) than with a shared storage solution (like NFS). Also, when more than one node needs to access a shared state (like NFS), usually locking needs to take place, which hinders the scalability of the system.
+
+p. The most common solution to partial cluster failure is replicating data between nodes. The ability to control the number of replicas in the cluster allows to provide higher degree of high availability (this also relates to total cluster failure, see below). The idea of replication is to have one node that perform the operation on itself, and replicate the data or operation to its replicas.
+
+p. In case of ElasticSearch, an index is broken down into shards, and each shard can have zero or more replicas (both are configurable when creating an index). Here is an example of creating an index with 3 shards, each with 2 replicas (note, this is configurable on a *per index basis*):
+
+<pre class="prettyprint">
+$ curl -XPUT http://localhost:9200/twitter/ -d '
+index :
+    number_of_shards : 3
+    number_of_replicas : 2
+'
+</pre>
+
+p. An operation performed is automatically rerouted to the primary shard within its replication group, performed on it, and replicated to all its backups. Replication to the backup is done in parallel using *non blocking IO*, which basically means that more replicas mainly just means more traffic on the network.
+
+p(note). Replicas accept read operations as well, meaning that the more replicas you have, the more highly available your index is, but also the more scalable it is in terms of search and get operations!.
+
+p. Once we work under the assumption that node level state is volatile, it means that we can have the index itself stored on fast medium, starting with local file system (even SSD), and up to memory (both inside the heap, and *outside the heap, in native memory*). The index storage itself for ElasticSearch is also configurable on the index level:
+
+<pre class="prettyprint">
+$ curl -XPUT http://localhost:9200/twitter/ -d '
+index :
+    store:
+        type : memory
+'
+</pre>
+
+p. But, if the node storage is considered transient, what do we do regarding long term persistency of the index? The answer is the next section.
+
+h2. Full Cluster Failure / Long Term Persistency
+
+p. Handling full cluster failure or shutdown means that both the state of the cluster (in elasticsearch case, which indices have been created, what were the settings for each index, mapping definitions and so on) and each index actual content needs to be stored in a long term persistency.
+
+p. A solution for this is similar to "Time Machine":http://www.apple.com/macosx/what-is-macosx/time-machine.html, we need to persist the state into a long term storage. This solution is similar to what data grids have called "Write Behind":http://www.infoq.com/articles/write-behind-caching.
+
+p. The idea is the short term high availability is maintained by replication, while long term persistency is done by *asynchronously* writing deltas of the state into a long term storage. The benefit is that *real time operations are not affected* by this process.
+
+p. So, what happens when we start back the cluster?. When it first starts up, it queries the long term storage regarding the cluster state (indices created, settings, and so on) and perform them (creating indices, creating mapping), and each time a shard is first instantiated within its shard replication group, it will also recover its state from the long term persistency.
+
+p. ElasticSearch provides just that with a module called "Gateway":/docs/elasticsearch/modules/gateway/. For example, to have the state  stored in a shared file system, each node needs to start with a configuration of:
+
+<pre class="prettyprint">
+gateway :
+    type : fs
+    fs :
+        location : /shared/fs/
+</pre>
+
+p. This can also be started right from the command line using (only on unix):
+
+<pre class="prettyprint">
+$ bin/elasticsearch -f \
+        -Des.gateway.type=fs -Des.gateway.fs.location=/shared/fs/
+</pre>
+
+p. The above means that the cluster state will be stored on a shared file system, and each index created will automatically store its state on a shared file system as well. But, since each index has its own "index gateway":http://www.elasticsearch.com/docs/elasticsearch/index_modules/gateway/, we can get clever and decide on a per index level if it should be stored using a gateway or not. For example, the following example disables long term storage of an index:
+
+<pre class="prettyprint">
+$ curl -XPUT http://localhost:9200/my_special_volatile_index/ -d '
+index :
+    gateway:
+        type : none
+'
+</pre>
+
+
+p. As you can see, this is really powerful. More over, this is the perfect solution for cloud environments. In the cloud, storing long term state is usually done using what the cloud provider provides. For example, with Amazon, its "EBS":http://aws.amazon.com/ebs/ or "S3":http://aws.amazon.com/s3/. Right out of the (current version) box, you can use Amazon EBS for long term storage in ElasticSearch (since its a mounted shared file system). In the future, there will also be a gateway module to store the state directly on Amazon S3 and others.
+
+h2. Final Words
+
+p. This only the tip of the iceberg of how ElasticSearch replication, recovery and gateway works, and the future will just increase the iceberg (right back at you, global warming!). For example, what I am playing with now is with the idea of treating indices state as a version control, being able to tag them, and recover back specific tags into new indices or current ones. I hope that at least in terms of handling cluster failures (both partial and total), ElasticSearch makes more sense now.
+
+-shay.banon
