@@ -8,9 +8,11 @@ module Hide
       @index = Slingshot.index index_name
     end
 
-    def reindex!
+    def setup
       index.create
+    end
 
+    def reindex!
       (@site.pages + @site.posts).each do |page|
         next unless page.title
         p [page.category, page.id]
@@ -18,6 +20,10 @@ module Hide
       end
 
       index.refresh
+    end
+
+    def update! paths
+      raise NoMethodError, "TODO, my friend."
     end
 
   end
