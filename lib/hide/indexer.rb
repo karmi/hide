@@ -1,14 +1,14 @@
 module Hide
   class Indexer
 
+    attr_reader :index
+
     def initialize(site, index_name)
-      @site       = site
-      @index_name = index_name
+      @site  = site
+      @index = Slingshot.index index_name
     end
 
-    def index_all_pages!
-      index = Slingshot.index @index_name
-      index.delete
+    def reindex!
       index.create
 
       (@site.pages + @site.posts).each do |page|
