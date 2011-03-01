@@ -6,14 +6,15 @@ module Hide
     end
 
     def changed_files
-      command = %Q[git log --no-merges --pretty="format:%H :|: %s" --stat --name-only --no-color #{@sha1}..#{@sha2}]
-      output  = exec(command)
+      command = %Q[log --no-merges --pretty="format:%H :|: %s" --stat --name-only --no-color #{@sha1}..#{@sha2}]
+      output  = in_repo(command)
       parse output
     end
 
-    def exec command
-      output = %x[#{command} 2>&1]
+    def in_repo command
+      output = %x[git --git-dir=#{@path}/.git #{command} 2>&1]
       raise Exception, output unless $?.success?
+      output
     end
 
     def parse output

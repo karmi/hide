@@ -11,8 +11,8 @@ module Hide
       end
 
       should "return updated files" do
-        command = %Q[git log --no-merges --pretty="format:%H :|: %s" --stat --name-only --no-color abc123..def456]
-        @git.expects(:exec).with(command).returns(GITLOG)
+        command = %Q[log --no-merges --pretty="format:%H :|: %s" --stat --name-only --no-color abc123..def456]
+        @git.expects(:in_repo).with(command).returns(GITLOG)
         assert_equal 10, @git.changed_files.size
       end
 
