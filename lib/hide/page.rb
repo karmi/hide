@@ -1,8 +1,6 @@
 module Hide
   class Page
 
-    attr_reader :meta
-
     def initialize(page)
       @page = page
     end
