@@ -1,9 +1,12 @@
 module Hide
   class Site
 
+    attr_reader :path
+
     def initialize(path, options = {})
       old_stderr, $stderr = $stderr, StringIO.new # Mute Jekyll swearing
-      @site    = Jekyll::Site.new Jekyll.configuration({}.merge 'source' => path)
+      @path    = path
+      @site    = Jekyll::Site.new Jekyll.configuration({}.merge 'source' => @path)
       $stderr  = old_stderr
       @options = options
       @options[:blog_directory]    ||= 'blog'

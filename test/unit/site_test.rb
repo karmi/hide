@@ -7,6 +7,10 @@ module Hide
     context "Site" do
       setup { @site = Hide::Site.new path_to_test_site, :pages_directories => ['guide'] }
 
+      should "have path" do
+        assert_equal path_to_test_site, @site.path
+      end
+
       should "have pages" do
         assert_not_nil @site.pages
         assert_equal 60, @site.pages.size
