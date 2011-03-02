@@ -8,7 +8,7 @@ module Hide
     end
 
     def changed_files
-      in_repo('fetch')
+      update_repo
       command = %Q[log --no-merges --pretty="format:%H :|: %s" --stat --name-only --no-color #{@sha1}..#{@sha2}]
       output  = in_repo(command)
       parse output
@@ -28,6 +28,12 @@ module Hide
         # { :sha => sha, :files => files }
         files
       end.flatten
+    end
+
+    def update_repo
+      in_repo('fetch')
+      # TODO: Make branch optional
+      in_repo('reset origin/master --hard')
     end
 
   end
