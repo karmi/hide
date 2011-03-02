@@ -15,15 +15,24 @@ module Hide
     def reindex!
       (@site.pages + @site.posts).each do |page|
         next unless page.title
-        p [page.category, page.id]
-        p index.store( page.category.to_s, page)
+        index_page page
       end
-
       index.refresh
     end
 
-    def update! paths
-      raise NoMethodError, "TODO, my friend."
+    def update! before, after
+      updater = Updater.new @site, before, after
+
+      (updater.updated_pages + updater.updated_posts).each do |page|
+        next unless page.title
+        index_page page
+      end
+      index.refresh
+    end
+
+    def index_page(page)
+      p ['INDEXING', page.category, page.id]
+      p index.store( page.category.to_s, page)
     end
 
   end

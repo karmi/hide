@@ -22,7 +22,7 @@ module Hide
         assert_equal 'Search API - Request Body', @updater.updated_pages.first.title
       end
 
-      should "return selected blog posts based on updated paths" do
+      should "return updated blog posts based on updated paths" do
         @updater.stubs(:updated_paths).returns( ['blog/2010/02/08/youknowforsearch'] )
         assert_equal 1, @updater.updated_posts.size
         assert_equal 'You Know, for Search', @updater.updated_posts.first.title
