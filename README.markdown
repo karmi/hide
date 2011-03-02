@@ -3,33 +3,26 @@ Hide
 
 Search for [Jekyll](https://github.com/mojombo/jekyll) websites.
 
-Essentially a spike for the <http://www.elasticsearch.org> website.
+Implemented for the <http://www.elasticsearch.org> website.
 
+Installation
+------------
+
+1. Install [ElasticSearch](http://elasticsearch.org/guide/reference/setup/installation.html)
+2. Install the gems: `bundle install`
 
 Usage
 -----
 
-Run `example/indexer.rb`, but essentially:
+Clone the repository, such as:
 
-    $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
+    git clone https://github.com/elasticsearch/elasticsearch.github.com.git
 
-    require 'rubygems'
-    require File.expand_path('../../lib/hide', __FILE__)
+Run the following Rake tasks:
 
-    site    = Hide::Site.new('/path/to/the/jekyll/site',
-                             :pages_directories => ['pages', 'tutorial', 'etc'])
-    indexer = Hide::Indexer.new(site, 'some-name-for-elasticsearch-index')
+    rake index:destroy HIDE_WEBSITE=/path/to/the/cloned/website/repo
+    rake index:setup HIDE_WEBSITE=/path/to/the/cloned/website/repo
+    rake index:import HIDE_WEBSITE=/path/to/the/cloned/website/repo
 
-    start = Time.now
-
-    indexer.index_all_pages!
-
-    puts "-"*80, "Indexing finished in #{Time.now-start} seconds", ""
-
-
-Todo
-----
-
-* Take site path etc from `ARGV` in indexer.rb
-* Create some sane mapping (eg. boost for `title` fields, etc) for the index
-* Embedded webserver for Github post-receive hook, re-index changed docs on `push`
+There's also a server serving as an endpoint for [Github post-receive hooks](http://help.github.com/post-receive-hooks/).
+Run it as any Ruby webserver (Thin, Passenger, etc).
