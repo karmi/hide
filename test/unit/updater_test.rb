@@ -11,6 +11,12 @@ module Hide
         @updater = Updater.new @site, 'abc123', 'def456'
       end
 
+      should "sanitize shas" do
+        updater = Updater.new @site, ';rm -rf', '/dev/null'
+        assert_equal 'rmrf', updater.sha1
+        assert_equal 'devnull', updater.sha2
+      end
+
       should "return updated paths based on sha1 and sha2" do
         Git.any_instance.expects(:changed_files).returns( %w|blog/_posts/2011-02-08-percolator.textile guide/appendix/clients.textile| )
         assert_equal %w|blog/_posts/2011-02-08-percolator guide/appendix/clients|, @updater.updated_paths

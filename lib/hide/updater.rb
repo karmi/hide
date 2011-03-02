@@ -1,8 +1,10 @@
 module Hide
   class Updater
 
+    attr_reader :site, :sha1, :sha2
+
     def initialize(site, sha1, sha2)
-      @site, @sha1, @sha2 = site, sha1, sha2
+      @site, @sha1, @sha2 = site, sanitize_sha(sha1), sanitize_sha(sha2)
     end
 
     def git
@@ -29,6 +31,12 @@ module Hide
       git.changed_files.map do |file|
         [ File.dirname(file), File.basename(file, '.*') ].join('/')
       end
+    end
+
+    private
+
+    def sanitize_sha(sha)
+      sha.to_s.gsub(/[^0-9a-z]/, '')
     end
 
   end
