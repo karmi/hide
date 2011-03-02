@@ -18,7 +18,7 @@ module Hide
 
     post '/update' do
       begin
-        json = Yajl::Parser.parse(request.body)
+        json = Yajl::Parser.parse(params[:payload])
         before, after = json['before'], json['after']
         # p [before, after]
 
@@ -27,10 +27,10 @@ module Hide
         @indexer.update! before, after
         
       rescue Yajl::ParseError
-        puts request.body.read
+        STEDRR.puts params[:payload]
         error 500, "Invalid JSON"
       rescue Hide::GitError
-        puts request.body.read
+        STEDRR.puts params[:payload]
         error 500, "Invalid JSON payload -- shas missing?"
       end
     end
