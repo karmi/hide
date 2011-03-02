@@ -12,6 +12,10 @@ module Hide
       index.create
     end
 
+    def destroy!
+      index.delete
+    end
+
     def reindex!
       (@site.pages + @site.posts).each do |page|
         next unless page.title

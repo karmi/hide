@@ -15,6 +15,14 @@ end
 
 namespace :index do
 
+  desc "Remove the ElasticSearch index"
+  task :destroy do
+    site = Hide::Site.new(ENV['HIDE_WEBSITE'], :pages_directories => ['guide', 'community', 'tutorials', 'videos'])
+    indexer = Hide::Indexer.new(site, 'elastic-search-website')
+
+    indexer.destroy!
+  end
+
   desc "Setup the ElasticSearch index (mapping)"
   task :setup do
     site = Hide::Site.new(ENV['HIDE_WEBSITE'], :pages_directories => ['guide', 'community', 'tutorials', 'videos'])
