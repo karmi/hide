@@ -1,4 +1,6 @@
 module Hide
+  class GitError < Exception; end
+
   class Git
 
     def initialize(path, sha1, sha2)
@@ -13,7 +15,7 @@ module Hide
 
     def in_repo command
       output = %x[git --git-dir=#{@path}/.git #{command} 2>&1]
-      raise Exception, output unless $?.success?
+      raise GitError, output unless $?.success?
       output
     end
 
