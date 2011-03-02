@@ -19,7 +19,6 @@ namespace :index do
   task :destroy do
     site = Hide::Site.new(ENV['HIDE_WEBSITE'], :pages_directories => ['guide', 'community', 'tutorials', 'videos'])
     indexer = Hide::Indexer.new(site, 'elastic-search-website')
-
     indexer.destroy!
   end
 
@@ -27,8 +26,7 @@ namespace :index do
   task :setup do
     site = Hide::Site.new(ENV['HIDE_WEBSITE'], :pages_directories => ['guide', 'community', 'tutorials', 'videos'])
     indexer = Hide::Indexer.new(site, 'elastic-search-website')
-    puts indexer.index.create ? 'Created index' : 'Index already exists'
-    # TODO: Mapping
+    puts indexer.setup() ? 'Created index with mapping' : 'Index already exists'
   end
 
   desc "Import whole website into ElasticSearch"
