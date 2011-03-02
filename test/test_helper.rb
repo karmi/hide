@@ -1,9 +1,26 @@
+ENV['RACK_ENV'] = 'test'
+
 require 'rubygems'
 require 'test/unit'
+require 'rack/test'
 require 'shoulda'
 require 'mocha'
 require 'turn' unless ENV["TM_FILEPATH"]
 require 'pathname'
+
+module Hide
+  extend self
+
+  DEFAULT_CONFIG = {
+    :path        => File.expand_path( 'site', File.dirname(__FILE__) ),
+    :directories => ['guide', 'blog']
+  }
+
+  def config(key)
+    @config ||= DEFAULT_CONFIG
+    @config[key]
+  end
+end
 
 require 'hide'
 
