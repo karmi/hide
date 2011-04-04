@@ -16,6 +16,10 @@ module Hide
       set :website_directories, Hide.config(:directories)
     end
 
+    use Rack::Auth::Basic, "Hide Server" do |username, password|
+      Hide.config(:server)[:username] == username && Hide.config(:server)[:password] == password
+    end
+
     post '/update' do
       begin
         json = Yajl::Parser.parse(params[:payload])

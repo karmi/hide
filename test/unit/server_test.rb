@@ -22,7 +22,37 @@ class ServerTest < Test::Unit::TestCase
 }
   PAYLOAD
 
+  context "Access" do
+
+    should "be denied to un-authenticated user" do
+      post '/update', { :payload => PAYLOAD }
+
+      assert_equal 401, last_response.status
+    end
+
+    should "be denied to user with wrong credentials" do
+      authorize 'bad', 'boy'
+      post '/update', { :payload => PAYLOAD }
+
+      assert_equal 401, last_response.status
+    end
+
+    should "be granted to user with proper credentials" do
+      Hide::Indexer.any_instance.stubs(:update!).returns(true)
+
+      authorize 'admin', 'admin'
+      post '/update', { :payload => PAYLOAD }
+
+      assert_equal 200, last_response.status
+    end
+
+  end
+
   context "Server" do
+
+    setup do
+      authorize 'admin', 'admin'
+    end
 
     should "raise error when payload is missing" do
       post '/update'

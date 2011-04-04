@@ -15,6 +15,10 @@ module Hide
           
         }
       }
+    },
+    :server      => {
+      :username => 'admin',
+      :password => 'admin'
     }
   }
 
