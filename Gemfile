@@ -5,6 +5,7 @@ gem "jekyll"
 gem "sinatra"
 gem "yajl-ruby"
 gem "slingshot-rb", :git => 'git://github.com/karmi/slingshot.git'
+gem "thin"
 
 group :test do
   gem 'shoulda'
