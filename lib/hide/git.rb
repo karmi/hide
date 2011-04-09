@@ -16,7 +16,7 @@ module Hide
     end
 
     def in_repo command
-      output = %x[git --git-dir=#{@path}/.git #{command} 2>&1]
+      output = %x[unset GIT_DIR && git --git-dir=#{@path}/.git #{command} 2>&1]
       raise GitError, output unless $?.success?
       output
     end
