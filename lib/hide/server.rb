@@ -31,11 +31,11 @@ module Hide
         @indexer.update! before, after
         
       rescue Yajl::ParseError
-        STDERR.puts params[:payload]
-        error 500, "Invalid JSON"
-      rescue Hide::GitError
-        STDERR.puts params[:payload]
-        error 500, "Invalid JSON payload -- shas missing?"
+        STDERR.puts "Invalid JSON", params[:payload]
+        error 500,  "Invalid JSON"
+      rescue Hide::GitError => e
+        STDERR.puts "Invalid JSON payload -- shas missing?", params[:payload], e.inspect
+        error 500,  "Invalid JSON payload -- shas missing?"
       end
     end
 
