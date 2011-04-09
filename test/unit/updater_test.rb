@@ -7,6 +7,7 @@ module Hide
     context "Updater" do
 
       setup do
+        Git.any_instance.stubs(:update_repo)
         @site = Hide::Site.new path_to_test_site, :pages_directories => ['guide']
         @updater = Updater.new @site, 'abc123', 'def456'
       end

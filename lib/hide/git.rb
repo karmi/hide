@@ -32,6 +32,7 @@ module Hide
     end
 
     def update_repo
+      STDERR.puts "Updating repository..."
       in_repo('fetch')
       in_repo("reset origin/#{Hide.config(:branch)} --hard")
     end

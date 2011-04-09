@@ -26,7 +26,6 @@ module Hide
 
     def update! before, after
       updater = Updater.new @site, before, after
-      updater.git.update_repo
 
       (updater.updated_pages + updater.updated_posts).each do |page|
         next unless page.title
