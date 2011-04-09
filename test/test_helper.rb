@@ -13,6 +13,7 @@ module Hide
 
   DEFAULT_CONFIG = {
     :path        => File.expand_path( 'site', File.dirname(__FILE__) ),
+    :branch      => 'master',
     :directories => ['guide', 'blog'],
     :server      => {
       :username => 'admin',

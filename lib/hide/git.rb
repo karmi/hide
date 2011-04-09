@@ -33,8 +33,7 @@ module Hide
 
     def update_repo
       in_repo('fetch')
-      # TODO: Make branch optional
-      in_repo('reset origin/master --hard')
+      in_repo("reset origin/#{Hide.config(:branch)} --hard")
     end
 
   end

@@ -3,7 +3,9 @@ module Hide
 
   DEFAULT_CONFIG = {
     :path        => '/path/to/the/cloned/website',
+    :branch      => 'master',
     :directories => ['guide', 'community', 'tutorials', 'videos'],
+
     :mappings    => {
       :guide => {
         :properties => {
@@ -16,6 +18,7 @@ module Hide
         }
       }
     },
+
     :server      => {
       :username => 'admin',
       :password => 'admin'
