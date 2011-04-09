@@ -5,11 +5,15 @@ module Hide
 
     def initialize(site, sha1, sha2)
       @site, @sha1, @sha2 = site, sanitize_sha(sha1), sanitize_sha(sha2)
-      git.update_repo
     end
 
     def git
       Git.new @site.path, @sha1, @sha2
+    end
+
+    def update_site
+      git.update_repo
+      @site  = Hide::Site.new(Hide.config(:path), :pages_directories => Hide.config(:directories))
     end
 
     def updated_pages

@@ -3,8 +3,8 @@ module Hide
 
     attr_reader :index
 
-    def initialize(site, index_name)
-      @site  = site
+    def initialize(index_name)
+      @site  = Hide::Site.new(Hide.config(:path), :pages_directories => Hide.config(:directories))
       @index = Slingshot.index index_name
     end
 
@@ -26,6 +26,7 @@ module Hide
 
     def update! before, after
       updater = Updater.new @site, before, after
+      updater.update_site
 
       (updater.updated_pages + updater.updated_posts).each do |page|
         next unless page.title

@@ -5,6 +5,7 @@ module Hide
     :path        => '/path/to/the/cloned/website',
     :branch      => 'master',
     :directories => ['guide', 'community', 'tutorials', 'videos'],
+    :index_name  => 'elastic-search-website',
 
     :mappings    => {
       :guide => {

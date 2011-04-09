@@ -15,6 +15,8 @@ module Hide
     :path        => File.expand_path( 'site', File.dirname(__FILE__) ),
     :branch      => 'master',
     :directories => ['guide', 'blog'],
+    :index_name  => 'elastic-search-website-test',
+
     :server      => {
       :username => 'admin',
       :password => 'admin'

@@ -11,11 +11,6 @@ module Hide
       require File.expand_path('../../../config', __FILE__)
     end
 
-    configure do
-      set :website_path,        Hide.config(:path)
-      set :website_directories, Hide.config(:directories)
-    end
-
     use Rack::Auth::Basic, "Hide Server" do |username, password|
       Hide.config(:server)[:username] == username && Hide.config(:server)[:password] == password
     end
@@ -27,8 +22,7 @@ module Hide
         before, after = json['before'], json['after']
         # p [before, after]
 
-        site     = Hide::Site.new(settings.website_path, :pages_directories => settings.website_directories)
-        @indexer = Hide::Indexer.new site, 'elastic-search-website'
+        @indexer = Hide::Indexer.new Hide.config(:index_name)
         @indexer.update! before, after
         
       rescue Yajl::ParseError

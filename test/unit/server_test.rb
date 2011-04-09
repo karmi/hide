@@ -43,7 +43,7 @@ class ServerTest < Test::Unit::TestCase
       authorize 'admin', 'admin'
       post '/update', { :payload => PAYLOAD }
 
-      assert_equal 200, last_response.status
+      assert_equal 200, last_response.status, last_response.body
     end
 
   end
@@ -76,7 +76,7 @@ class ServerTest < Test::Unit::TestCase
       Hide::Indexer.any_instance.expects(:update!).with('a576986a5a50c98dfa556a2ef0863b3877742aa8', 'd40c96be399e791db154e64cb90324e6b87e97a1')
 
       post '/update', { :payload => PAYLOAD }
-      assert last_response.ok?, "#{last_response.status} is NOT OK."
+      assert_equal 200, last_response.status, last_response.body
     end
 
   end
