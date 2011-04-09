@@ -22,6 +22,7 @@ module Hide
 
     post '/update' do
       begin
+        STDERR.puts "Starting the update process..."
         json = Yajl::Parser.parse(params[:payload])
         before, after = json['before'], json['after']
         # p [before, after]
