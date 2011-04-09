@@ -10,6 +10,11 @@ module Hide
         @git = Git.new path_to_test_site, 'abc123', 'def456'
       end
 
+      should_eventually "pass --git-dir and --work-tree to Git commands" do
+        # TODO: Stub Kernel %x method
+        @git.in_repo('status')
+      end
+
       should "return updated files" do
         command = %Q[log --no-merges --pretty="format:%H :|: %s" --stat --name-only --no-color abc123..def456]
         @git.expects(:in_repo).with(command).returns(GITLOG)
