@@ -8,9 +8,11 @@ module Hide
     end
 
     def changed_files
-      command = %Q[log --no-merges --pretty="format:%H :|: %s" --stat --name-only --no-color #{@sha1}..#{@sha2}]
-      output  = in_repo(command)
-      parse output
+      @changed_files ||= begin
+        command = %Q[log --no-merges --pretty="format:%H :|: %s" --stat --name-only --no-color #{@sha1}..#{@sha2}]
+        output  = in_repo(command)
+        parse output
+      end
     end
 
     def in_repo command
