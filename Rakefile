@@ -42,7 +42,7 @@ namespace :index do
   task :import => :prepare do
     @start = Time.now
     @indexer.reindex!
-    puts "-"*80, "Indexing finished in #{Time.now-start} seconds", ""
+    puts "-"*80, "Indexing finished in #{Time.now-@start} seconds", ""
   end
 
 end
