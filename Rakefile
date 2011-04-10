@@ -14,6 +14,7 @@ Rake::TestTask.new(:test) do |test|
 end
 
 namespace :index do
+  # TODO use the configuration from config.rb instead of using the HIDE_WEBSITE environment variable.
 
   desc "Remove the ElasticSearch index"
   task :destroy do
