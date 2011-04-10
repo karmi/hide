@@ -3,18 +3,19 @@ Hide
 
 Search for [Jekyll](https://github.com/mojombo/jekyll) websites.
 
-Implemented for the <http://www.elasticsearch.org> website.
+Implemented for the <http://www.elasticsearch.org> website, may be useful for others.
 
 Installation
 ------------
 
 1. Install [ElasticSearch](http://elasticsearch.org/guide/reference/setup/installation.html)
-2. Install the required gems: `bundle install`
+2. Clone this repository: `git clone git://github.com/karmi/hide.git`
+3. Install the required gems: `bundle install`
 
 Usage
 -----
 
-Clone the repository, such as:
+Clone the repository containing the Jekyll website, such as:
 
     git clone https://github.com/elasticsearch/elasticsearch.github.com.git
 
@@ -30,5 +31,10 @@ Run the following Rake tasks:
     rake index:import HIDE_WEBSITE=/path/to/the/cloned/website/repo
 
 There's also a server serving as an endpoint for [Github post-receive hooks](http://help.github.com/post-receive-hooks/).
+You can run it as any Rack application, for example:
 
-TODO: explain how to launch it. eg. bundle exec rackup
+    bundle exec thin -R config.ru start
+
+-----
+
+[Karel Minarik](http://karmi.cz)
