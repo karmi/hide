@@ -26,9 +26,11 @@ Create and edit the configuration file (be sure to set correct path and index na
 
 Run the following Rake tasks:
 
-    rake index:destroy HIDE_WEBSITE=/path/to/the/cloned/website/repo
-    rake index:setup HIDE_WEBSITE=/path/to/the/cloned/website/repo
-    rake index:import HIDE_WEBSITE=/path/to/the/cloned/website/repo
+    rake index:destroy
+    rake index:setup
+    rake index:import
+
+You can try out some queries in the browser: <http://localhost:9200/elastic-search-website/_search?pretty=true&q=filter>
 
 There's also a server serving as an endpoint for [Github post-receive hooks](http://help.github.com/post-receive-hooks/).
 You can run it as any Rack application, for example:

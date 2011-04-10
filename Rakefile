@@ -14,29 +14,34 @@ Rake::TestTask.new(:test) do |test|
 end
 
 namespace :index do
-  # TODO use the configuration from config.rb instead of using the HIDE_WEBSITE environment variable.
 
-  desc "Remove the ElasticSearch index"
-  task :destroy do
-    site = Hide::Site.new(ENV['HIDE_WEBSITE'], :pages_directories => ['guide', 'community', 'tutorials', 'videos'])
-    indexer = Hide::Indexer.new(site, 'elastic-search-website')
-    indexer.destroy!
+  task :prepare do
+    @site = Hide::Site.new(Hide.config(:path), :pages_directories => Hide.config(:directories))
+    @indexer = Hide::Indexer.new(Hide.config(:index_name))
   end
 
-  desc "Setup the ElasticSearch index (mapping)"
-  task :setup do
-    site = Hide::Site.new(ENV['HIDE_WEBSITE'], :pages_directories => ['guide', 'community', 'tutorials', 'videos'])
-    indexer = Hide::Indexer.new(site, 'elastic-search-website')
-    puts indexer.setup() ? 'Created index with mapping' : 'Index already exists'
+  desc "Delete the ElasticSearch index"
+  task :destroy => :prepare do
+    if @indexer.destroy!
+      puts "Deleted index '#{Hide.config(:index_name)}'"
+    else
+      puts "Error deleting index"
+    end
   end
 
-  desc "Import whole website into ElasticSearch"
-  task :import do
-    site = Hide::Site.new(ENV['HIDE_WEBSITE'], :pages_directories => ['guide', 'community', 'tutorials', 'videos'])
-    indexer = Hide::Indexer.new(site, 'elastic-search-website')
+  desc "Setup the ElasticSearch index with proper mapping"
+  task :setup => :prepare do
+    if @indexer.setup 
+      puts "Created index '#{Hide.config(:index_name)}' with mapping"
+    else
+      puts "Index '#{Hide.config(:index_name)}' already exists"
+    end
+  end
 
-    start = Time.now
-    indexer.reindex!
+  desc "Import the website into ElasticSearch index"
+  task :import => :prepare do
+    @start = Time.now
+    @indexer.reindex!
     puts "-"*80, "Indexing finished in #{Time.now-start} seconds", ""
   end
 
