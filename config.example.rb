@@ -16,7 +16,8 @@ module Hide
           :url      => { :type => 'string', :index => 'not_analyzed', :include_in_all => false },
           :category => { :type => 'string', :analyzer => 'keyword',   :include_in_all => false },
           
-        }
+        },
+        :_all => { :analyzer => 'snowball' }
       }
     },
 
