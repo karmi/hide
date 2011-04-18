@@ -14,7 +14,7 @@ module Hide
     end
 
     def content
-      @page.content
+      @page.content.gsub(/[^"]<[^>]+>[^"]/, '').gsub(/p\.\s/, '').gsub(/h\d\.\s/, '')
     end
 
     def url
