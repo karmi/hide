@@ -9,7 +9,7 @@ module Hide
     end
 
     def setup
-      index.create :mappings => Hide.config(:mappings)
+      index.create :mappings => Hide.config(:mappings), :settings => Hide.config(:settings)
     end
 
     def destroy!
