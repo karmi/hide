@@ -5,3 +5,5 @@ pkg/*
 scratch/
 config.rb
 vendor/
+log/
+tmp/
