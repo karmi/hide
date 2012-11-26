@@ -38,6 +38,9 @@ module Hide
     def index_page(page)
       p ['INDEXING', page.category, page.id]
       p index.store( page.category.to_s, page)
+    rescue Exception => e
+      STDERR.puts "ERROR: " + page.inspect
+      STDERR.puts e.inspect
     end
 
   end
